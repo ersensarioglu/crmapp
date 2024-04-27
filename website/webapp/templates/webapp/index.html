@@ -1,5 +1,16 @@
 {% extends 'webapp/base.html' %}
 
 {% block content %}
-<h1>Hello World!</h1>
+<body>
+    <br>
+    <br>
+    <div class = "text-center">
+        <h3> CRM App Management</h3>
+        <br>
+        <h5> Keep track of records</h5>
+        <hr>
+        <br>
+        <a class="btn btn-primary" type="button" href="{% url 'home' %}"> Create your account </a>
+    </div>
+</body>
 {% endblock %}
