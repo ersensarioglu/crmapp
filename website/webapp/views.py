@@ -67,6 +67,12 @@ def view_record(request, pk):
     context = {'record': record}
     return render(request, 'webapp/view-record.html', context)
 
+@login_required(login_url='my-login')
+def delete_record(request, pk):
+    record = Record.objects.get(id=pk)
+    record.delete()
+    return redirect('dashboard')
+
 def user_logout(request):
     auth.logout(request)
     return redirect('my-login')

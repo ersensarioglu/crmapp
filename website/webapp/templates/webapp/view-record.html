@@ -2,9 +2,12 @@
 {% block content %}
 <div class="card">
     <strong>
+        <br>
+        &nbsp;&nbsp;
         {{record.last_name|upper}}
         {{record.first_name}}
     </strong>
+    <hr>
     <div class="card-body">
         <p><strong>ID: </strong> {{record.id}} </p> 
         <p><strong>Email: </strong> {{record.email}} </p>
@@ -21,5 +24,5 @@
 &nbsp;
 <a href="{% url 'update-record' record.id %}" class="btn btn-info"> Update </a>
 &nbsp;
-<a href="{% url '' %}" class="btn btn-danger"> Delete </a>
+<a href="{% url 'delete-record' record.id %}" class="btn btn-danger"> Delete </a>
 {% endblock %}
