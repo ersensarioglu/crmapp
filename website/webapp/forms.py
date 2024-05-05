@@ -3,15 +3,25 @@ from django.contrib.auth.models import User
 
 from django import forms
 from django.forms.widgets import PasswordInput, TextInput
-from .models import Record
+from .models import Record, Profile
 
 # Register/Create a user
 class CreateUserForm(UserCreationForm):
     
     class Meta:
-        
         model = User
         fields = ['username', 'password1', 'password2']
+
+class UpdateUserForm(forms.ModelForm):
+    
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
+
+class UpdateProfileForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['age', 'nickname', 'gender']
 
 # Login a user  
 class LoginForm(AuthenticationForm):

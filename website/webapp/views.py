@@ -3,7 +3,8 @@ from django.contrib import messages
 from django.contrib.auth.models import auth
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required
-from .forms import CreateUserForm, LoginForm, CreateRecordForm, UpdateRecordForm
+from django.db import transaction
+from .forms import CreateUserForm, UpdateUserForm, UpdateProfileForm, LoginForm, CreateRecordForm, UpdateRecordForm
 from .models import Record
 
 def home(request):
@@ -19,6 +20,22 @@ def register(request):
             return redirect('my-login')
     context = {'form': form}
     return render(request, 'webapp/register.html', context)
+
+@login_required(login_url='my-login')
+@transaction.atomic
+def update_profile(request):
+    user_form = UpdateUserForm(instance=request.user)
+    profile_form = UpdateProfileForm(instance=request.user.profile)
+    if request.method == "POST":
+        user_form = UpdateUserForm(request.POST, instance=request.user)
+        profile_form = UpdateProfileForm(request.POST, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            messages.success(request,'Account updated successfully!')
+            return redirect('dashboard')
+    context = {'form': user_form, 'profile': profile_form}
+    return render(request, 'webapp/update-profile.html', context)
 
 def my_login(request):
     form = LoginForm()
